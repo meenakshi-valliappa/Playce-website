@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Playce Website</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Lilita+One&display=swap" rel="stylesheet">
+<style>
+/* VOICE occasion: a warm kids-furniture storefront, playful but honest about safety and money
+   IDEA a kids room with a height chart on the wall: furniture changes shape as the child grows
+   PICTURE a drawn room scene; dragging the age slider converts the crib, desk and storage live
+   COLOUR Buttercream ground, Tangerine Tango for Loop, Mineral Yellow for Grow, Chocolate Fondant ink
+   TYPE Caveat Brush (hand-lettered display) + DM Sans; Lilita One for the wordmark
+   LAYOUT title across the top, room scene full width under it, slider + "fits now" panel below; stacks on phones */
+:root{color-scheme:light;--bg:#FBF7F0;--card:#FFFFFF;--card2:#F5ECDF;--ink:#3E2A22;--mut:#7A6255;--hd:#C2541E;--line:#E9DDCC;--o:#DD4124;--o2:#B5341B;--y:#D39C2F;--ch:#56352D;--cr:#FFF6E8}
+:root[data-theme]{color-scheme:light}
+*{box-sizing:border-box;min-width:0}
+html{scroll-padding-top:120px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "DM Sans",system-ui,sans-serif;overflow-x:clip}
+img,svg{max-width:100%}
+a{color:inherit}
+h1,h2{font-family:"Caveat Brush","Comic Sans MS",cursive;font-weight:400;color:var(--hd);line-height:1.05;letter-spacing:-.01em;text-wrap:balance;margin:0 0 .3em}
+h1{font-size:clamp(40px,6.4vw,70px)}
+h2{font-size:clamp(32px,4.2vw,48px)}
+h3{font-size:20px;margin:0 0 .35em;line-height:1.2}
+p{margin:0 0 .8em}
+.band{padding-block:clamp(32px,5vw,72px);padding-inline:max(5vw,16px)}
+.in{max-width:1240px;margin:0 auto}
+.lead{font-size:18px;color:var(--mut);max-width:62ch}
+.dark{background:#F3E8D8;color:var(--ink)}
+.dark h2{color:var(--hd)}
+.ybg{background:#F8EEDA}
+.obg{background:#FBEDE5}
+.top{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.ann{background:#F3E3CC;color:var(--ink);text-align:center;font-size:14px;padding:7px 16px}
+.ann b{color:var(--o2)}
+.bar{display:flex;align-items:center;gap:14px;padding:10px max(5vw,16px);max-width:1340px;margin:0 auto;flex-wrap:wrap}
+.logo{font:32px/1 "Lilita One",sans-serif;color:var(--o);text-decoration:none;display:inline-flex;align-items:flex-end;letter-spacing:.02em}
+.logo svg{width:.78em;height:.82em;margin:0 .02em}
+nav{display:flex;gap:4px;flex:1;overflow-x:auto;scrollbar-width:none}
+nav a{flex:none;text-decoration:none;padding:9px 12px;border-radius:999px;font-weight:500;font-size:15px}
+nav a:hover{background:var(--card2)}
+nav a.on{background:var(--ink);color:var(--bg)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 20px;border-radius:999px;border:2px solid transparent;font:700 16px "DM Sans",sans-serif;text-decoration:none;cursor:pointer;background:var(--o);color:#fff;transition:transform .15s}
+.btn:hover{transform:translateY(-2px)}
+.btn:focus-visible,input:focus-visible,select:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var(--y);outline-offset:2px}
+.btn.y{background:var(--y);color:#2B1A12}
+.btn.gh{background:transparent;color:var(--ink);border-color:var(--ink)}
+.btn.sm{min-height:40px;padding:0 14px;font-size:14px}
+.btn[disabled]{opacity:.45;cursor:not-allowed;transform:none}
+.cartb{position:relative;width:46px;height:46px;border-radius:50%;border:2px solid var(--ink);background:transparent;color:var(--ink);cursor:pointer;display:grid;place-items:center}
+.cartb i{position:absolute;top:-6px;right:-6px;background:var(--o);color:#fff;font:700 12px/20px "DM Sans";min-width:20px;height:20px;border-radius:10px;font-style:normal}
+.view{display:none}.view.on{display:block;animation:fade .35s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.view.on,.pop{animation:none!important}.btn{transition:none}}
+.g2,.g3,.g4{display:grid;gap:18px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:22px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1.5px solid var(--line);background:var(--card);border-radius:999px;padding:7px 14px;font:500 14px "DM Sans";color:var(--ink);cursor:pointer;min-height:40px}
+.chip.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tag{display:inline-block;font-size:13px;font-weight:700;padding:3px 10px;border-radius:999px;background:var(--card2);white-space:nowrap}
+.tag.y{background:var(--y);color:#2B1A12}.tag.o{background:var(--o);color:#fff}
+.price{font-weight:700;font-size:22px;white-space:nowrap}
+.nw{white-space:nowrap}
+.mut{color:var(--mut)}
+.small{font-size:14px;color:var(--mut)}
+.hero-top{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:32px}
+@media(max-width:860px){.hero-top{grid-template-columns:minmax(0,1fr)}}
+.scene{border-radius:26px;overflow:hidden;border:1px solid var(--line);background:#F3E1C7;line-height:0}
+.scene svg{width:100%;height:auto;display:block}
+.pop{animation:pop .45s cubic-bezier(.3,1.6,.5,1)}
+@keyframes pop{from{transform:scale(.96);opacity:.5}to{transform:none;opacity:1}}
+.grow-ctl{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:18px;margin-top:18px}
+@media(max-width:760px){.grow-ctl{grid-template-columns:minmax(0,1fr)}}
+.age{font:400 52px/1 "Caveat Brush",cursive;color:var(--o)}
+input[type=range]{width:100%;appearance:none;height:14px;border-radius:7px;background:linear-gradient(90deg,var(--y),var(--o));margin:14px 0 6px}
+input[type=range]::-webkit-slider-thumb{appearance:none;width:34px;height:34px;border-radius:50%;background:var(--cr);border:4px solid var(--ch);cursor:grab}
+input[type=range]::-moz-range-thumb{width:28px;height:28px;border-radius:50%;background:var(--cr);border:4px solid var(--ch);cursor:grab}
+.ticks{display:flex;justify-content:space-between;font-size:13px;color:var(--mut)}
+.fits{display:grid;gap:8px}
+.fit{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:10px 14px;border-radius:14px;background:var(--card2)}
+.fit b{font-weight:700}
+.stat{font:400 clamp(44px,5vw,64px)/1 "Caveat Brush",cursive;color:var(--o);white-space:nowrap}
+.split{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:0;border-radius:28px;overflow:hidden}
+.split>div{padding:clamp(24px,4vw,44px)}
+.split .gr{background:#F7E7C2;color:var(--ink)}
+.split .lp{background:#FADDD0;color:var(--ink)}
+.split h2{color:var(--hd)}
+.split ul,.plain{list-style:none;padding:0;margin:0 0 18px}
+.split li,.plain li{padding:6px 0 6px 26px;position:relative}
+.split li::before,.plain li::before{content:"";position:absolute;left:4px;top:14px;width:10px;height:10px;border-radius:50%;background:currentColor;opacity:.55}
+.thumb{display:block;width:100%;height:170px}
+.themes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:16px}
+.theme{background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;cursor:pointer;text-align:left;padding:0;color:var(--ink);font:inherit}
+.theme .scene{border:0;border-radius:0}
+.theme div.t{padding:12px 16px;font-weight:700}
+.hbar{display:grid;grid-template-columns:minmax(0,13em) minmax(0,1fr) 3.5em;gap:12px;align-items:center;padding:7px 0}
+.hbar .tr{height:16px;border-radius:8px;background:var(--card2);overflow:hidden}
+.hbar .tr span{display:block;height:100%;border-radius:8px;background:var(--o)}
+.hbar b{text-align:right}
+@media(max-width:520px){.hbar{grid-template-columns:minmax(0,1fr) 3em}.hbar .tr{grid-column:1/-1;order:3}}
+.stack100{display:flex;height:44px;border-radius:12px;overflow:hidden;font-weight:700;font-size:14px}
+.stack100 span{display:grid;place-items:center;color:#fff;white-space:nowrap;overflow:hidden}
+table{width:100%;border-collapse:collapse}
+th,td{padding:12px 10px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:14px;color:var(--mut);font-weight:700}
+td.c,th.c{text-align:center}
+tr.us td{background:color-mix(in srgb,var(--y) 22%,transparent);font-weight:700}
+.yes{color:#2E7D4F;font-weight:700}.no{color:var(--o2);font-weight:700}
+.scroll{overflow-x:auto}
+.pcard{display:flex;flex-direction:column;gap:10px}
+.pcard .art{background:var(--card2);border-radius:16px;padding:8px}
+.pcard .acts{margin-top:auto;display:flex;gap:8px;flex-wrap:wrap}
+.stages{display:flex;gap:6px;flex-wrap:wrap}
+.stages button{border:1.5px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;padding:6px 12px;font:500 13px "DM Sans";cursor:pointer;min-height:36px}
+.stages button.on{background:var(--y);border-color:var(--y);color:#2B1A12}
+.band-age{height:8px;border-radius:4px;margin-bottom:12px}
+.calc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px;align-items:center}
+@media(max-width:700px){.calc{grid-template-columns:minmax(0,1fr)}}
+.big{font:400 clamp(48px,7vw,76px)/1 "Caveat Brush",cursive;color:var(--hd)}
+label{font-weight:700;font-size:15px;display:block;margin:12px 0 6px}
+input[type=text],input[type=tel],input[type=email],input[type=date],select,textarea{width:100%;font:16px "DM Sans";padding:11px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);min-height:46px}
+.err{color:var(--o2);font-size:14px;font-weight:700;min-height:1.4em;margin-top:6px}
+.ok{color:#2E7D4F;font-weight:700}
+.toggle{display:flex;align-items:center;gap:10px;font-weight:500;cursor:pointer;margin:10px 0}
+.toggle input{width:22px;height:22px;accent-color:var(--o)}
+.seg{display:inline-flex;border:2px solid var(--ink);border-radius:999px;overflow:hidden;flex-wrap:wrap}
+.seg button{border:0;background:transparent;color:var(--ink);font:700 14px "DM Sans";padding:10px 16px;cursor:pointer;min-height:44px}
+.seg button.on{background:var(--ink);color:var(--bg)}
+.bundles{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:12px}
+.bundle{display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:left;font:inherit;color:var(--ink);background:var(--card);border:2px solid var(--line);border-radius:18px;padding:14px;cursor:pointer}
+.bundle.on{border-color:var(--o);box-shadow:0 0 0 3px color-mix(in srgb,var(--o) 25%,transparent)}
+.bundle b{display:block;font-size:17px}
+.sum{position:sticky;top:130px}
+.row{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px dashed var(--line)}
+.row:last-child{border:0}
+.row span:last-child{white-space:nowrap;font-weight:700}
+.cfg{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:22px;margin-top:20px;align-items:start}
+@media(max-width:900px){.cfg{grid-template-columns:minmax(0,1fr)}.sum{position:static}}
+.steps{counter-reset:s;display:grid;gap:14px}
+.step{display:grid;grid-template-columns:52px minmax(0,1fr);gap:14px;align-items:start}
+.step::before{counter-increment:s;content:counter(s);width:52px;height:52px;border-radius:50%;background:var(--o);color:#fff;display:grid;place-items:center;font:400 28px "Caveat Brush",cursive}
+.step p{margin:0;color:var(--mut)}
+.pass{background:var(--cr);color:#3E241D;border-radius:20px;padding:20px;border:2px dashed var(--y);display:grid;grid-template-columns:96px minmax(0,1fr);gap:16px;align-items:center}
+.pass .qr{width:96px;height:96px}
+.stepper{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px}
+.stepper span{flex:1 1 90px;font-size:13px;font-weight:700;padding:8px 10px;border-radius:10px;background:var(--card2);color:var(--mut);text-align:center}
+.stepper span.on{background:var(--o);color:#fff}.stepper span.done{background:var(--y);color:#2B1A12}
+details{background:var(--card);border:1px solid var(--line);border-radius:16px;margin-bottom:10px}
+summary{cursor:pointer;padding:16px 18px;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:10px}
+summary::after{content:"+";font-size:22px;line-height:1;color:var(--o)}
+details[open] summary::after{content:"–"}
+details>div{padding:0 18px 16px}
+.ava{width:86px;height:86px;border-radius:50%;display:grid;place-items:center;font:400 38px "Caveat Brush",cursive;color:#fff;margin-bottom:12px}
+footer{background:#F1E6D6;color:var(--ink)}
+footer a{text-decoration:none;color:var(--ink)}
+footer .logo{color:var(--o)}
+.fcols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:24px}
+footer ul{list-style:none;padding:0;margin:0}footer li{padding:4px 0}
+footer h3{color:var(--hd);font-size:16px}
+.badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.badges span{background:#fff;border:1px solid var(--line);border-radius:999px;padding:5px 12px;font-size:13px}
+#cart{position:fixed;top:0;right:0;height:100%;width:min(420px,100%);background:var(--card);border-left:1px solid var(--line);z-index:60;transform:translateX(105%);transition:transform .3s;display:flex;flex-direction:column;padding:20px}
+#cart.open{transform:none}
+#veil{position:fixed;inset:0;background:#0006;z-index:50;display:none}#veil.open{display:block}
+.ci{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px;padding:12px 0;border-bottom:1px solid var(--line)}
+.qty{display:flex;align-items:center;gap:6px}
+.qty button{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--line);background:transparent;color:var(--ink);cursor:pointer;font-size:18px}
+.mbar{display:none}
+@media(max-width:700px){nav{order:3;flex-basis:100%}.bar{gap:8px}.mbar{display:grid;grid-template-columns:1fr 1fr;gap:8px;position:fixed;bottom:0;left:0;right:0;padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));background:var(--bg);border-top:1px solid var(--line);z-index:25}body{padding-bottom:72px}.hide-m{display:none!important}.logo{font-size:28px}}
+.crumbs{font-size:14px;color:var(--mut);margin-bottom:10px}
+.pd{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:28px;align-items:start}
+@media(max-width:860px){.pd{grid-template-columns:minmax(0,1fr)}}
+.tl{display:flex;gap:0;margin:14px 0;border-radius:12px;overflow:hidden}
+.tl div{padding:10px;font-size:13px;font-weight:700;text-align:center;flex:1}
+.note{font-size:13px;color:var(--mut);margin-top:10px}
+.ph{width:100%;border-radius:22px;object-fit:cover;display:block;background:var(--card2)}
+.hero-top{align-items:center}
+.gal{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap}
+.gal button{width:96px;height:72px;padding:0;border-radius:12px;overflow:hidden;border:2px solid var(--line);cursor:pointer;background:var(--card2)}
+.gal button.on{border-color:var(--o)}
+.gal img{width:100%;height:100%;object-fit:cover;display:block}
+.lv{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:18px;align-items:stretch}
+@media(max-width:560px){.lv{grid-template-columns:minmax(0,1fr)}}
+.ads{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:16px;align-items:start}
+.ads img{width:100%;border-radius:18px;display:block;border:1px solid var(--line)}
+.pimg{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:14px;display:block;margin-bottom:12px;background:var(--card2)}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="ann">Kids grow. Playce keeps up. <b>No-cost EMI for 6 months on Grow.</b></div>
+  <div class="bar">
+    <a class="logo" href="#home" aria-label="Playce home"><img src="img/logo-wordmark.png" alt="Playce" style="height:34px;width:auto;display:block"></a>
+    <nav id="nav" aria-label="Main">
+      <a href="#grow">Grow · Buy</a><a href="#loop">Loop · Rent</a><a href="#safety">Safety</a><a href="#about">About</a><a href="#faq">FAQ</a>
+    </nav>
+    <button class="cartb" id="cartBtn" aria-label="Open cart"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 4h2l2.4 11h11L21 7H6.5"/><circle cx="9" cy="20" r="1.4"/><circle cx="17" cy="20" r="1.4"/></svg><i id="cartN">0</i></button>
+    <a class="btn hide-m" href="#visit">Book a free room visit</a>
+  </div>
+</header>
+
+<main>
+<!-- HOME -->
+<section class="view" id="v-home">
+  <div class="band" style="padding-bottom:28px">
+    <div class="in">
+      <div class="hero-top">
+        <div>
+          <img src="img/logo-full.png" alt="Playce, spaces that grow with your child" style="width:min(320px,80%);height:auto;display:block;margin-bottom:22px">
+          <h1>Kids outgrow furniture. Furniture shouldn't outgrow its use.</h1>
+          <p class="lead">Own furniture that adapts from age 0 to 14, or rent a themed room that we swap as they grow. Either way, nothing goes to landfill early.</p>
+          <div class="chips" style="margin-top:18px"><a class="btn y" href="#grow">Shop Grow</a><a class="btn" href="#loop">Rent with Loop</a></div>
+          <div class="chips" style="margin-top:16px"><span class="tag">BIS-certified</span><span class="tag">Converts in 20 min</span><span class="tag">From ₹1,999/month</span></div>
+        </div>
+        <img class="ph" src="img/grow-nest.jpg" alt="NestGrow Crib shown as a crib, a toddler bed and a kids sofa" style="aspect-ratio:3/2">
+      </div>
+    </div>
+  </div>
+  <div class="band" style="padding-top:8px">
+    <div class="in">
+      <h2>Drag to grow the room</h2>
+      <p class="lead">Watch the same Playce pieces change shape as your child grows.</p>
+      <div class="scene" id="heroScene" style="margin-top:14px"></div>
+      <div class="grow-ctl">
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap"><span style="font-weight:700">Your child's age</span><span class="age" id="ageOut">Age 1</span></div>
+          <input type="range" id="age" min="0" max="14" step="1" value="1" aria-label="Child's age">
+          <div class="ticks"><span>0</span><span>2</span><span>5</span><span>9</span><span>14</span></div>
+          <p class="small" style="margin-top:10px">Same NestGrow frame from crib to sofa. Click-Lock joints convert it in under 20 minutes, no tools needed.</p>
+        </div>
+        <div class="card">
+          <h3>What fits at this age</h3>
+          <div class="fits" id="fits"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="band dark">
+    <div class="in"><div>
+      <h2>Kids furniture dies young</h2>
+      <p style="max-width:60ch">It's built for one stage of childhood, so most of it is thrown out while it still works.</p>
+      <div class="g3" style="margin-top:18px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr))">
+        <div><div class="stat" data-n="3" data-pre="2 to ">2 to 3</div><b>years</b> is how long a crib is used before the child outgrows it.</div>
+        <div><div class="stat" data-n="4" data-pre="3 to " data-suf="×">3 to 4×</div>parents rebuild the kids room per child, at <span class="nw">₹60,000</span> to <span class="nw">₹1 lakh</span> each time.</div>
+        <div><div class="stat" data-n="80" data-suf="%">80%</div>of discarded furniture goes to landfill. Only 0.3% is recycled.</div>
+      </div>
+      <p class="small" style="margin-top:18px">Sources: US EPA durable goods data (2018); market pricing on Pepperfry.</p>
+    </div></div>
+  </div>
+
+  <div class="band">
+    <div class="in">
+      <h2>Two ways to Playce</h2>
+      <div class="split" style="margin-top:16px">
+        <div class="gr">
+          <h2>Grow · own it longer</h2>
+          <img class="ph" src="img/grow-level.jpg" alt="LevelUp Desk converting from play table to study desk" style="aspect-ratio:3/2;margin-bottom:14px">
+          <ul><li>One piece serves a child from 0 to 14</li><li>Converts in under 20 minutes, tool-free</li><li>From <b>₹12,999</b>, no-cost EMI for 6 months</li></ul>
+          <a class="btn gh" href="#grow">Shop Grow, all India</a>
+        </div>
+        <div class="lp">
+          <h2>Loop · share it wider</h2>
+          <img class="ph" src="img/theme-jungle.jpg" alt="Jungle Safari themed kids room" style="aspect-ratio:3/2;margin-bottom:14px">
+          <ul><li>A themed room, installed in one visit</li><li>Swapped when your child moves up a stage</li><li>From <b>₹1,999/month</b>, Bengaluru</li></ul>
+          <a class="btn gh" href="#loop">Rent a room</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="band ybg">
+    <div class="in">
+      <h2>Four launch themes for Loop</h2>
+      <p class="lead" style="color:inherit">Theme skins (panels, fabric, decals) change. The sturdy base frame stays and serves 2 to 3 families.</p>
+      <div class="themes" id="themeTiles" style="margin-top:16px"></div>
+    </div>
+  </div>
+
+  <div class="band">
+    <div class="in g2" style="align-items:center">
+      <div>
+        <h2>Biggest worry about renting</h2>
+        <p class="lead">We asked parents what stops them from renting kids furniture. Hygiene came first, so we built Loop around it.</p>
+        <a class="btn gh" href="#safety">See how Fresh Playce works</a>
+      </div>
+      <div class="card">
+        <div id="worry"></div>
+        <p class="small" style="margin-top:8px">Playce parent survey, 63 parents aged 25 to 40.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="band obg">
+    <div class="in">
+      <h2>Why Playce</h2>
+      <p class="lead" style="color:inherit">Nobody in India offers adaptable designs, themed rooms and a rent option for kids, all in one place.</p>
+      <div class="scroll card" style="margin-top:14px;padding:8px 14px">
+        <table>
+          <thead><tr><th></th><th class="c">Kids-only focus</th><th class="c">Themed rooms</th><th class="c">Adapts with age</th><th class="c">Buy and rent</th></tr></thead>
+          <tbody>
+            <tr class="us"><td>Playce</td><td class="c yes">Yes</td><td class="c yes">Yes</td><td class="c yes">Yes</td><td class="c yes">Both</td></tr>
+            <tr><td>Furniture rental platforms</td><td class="c no">No</td><td class="c no">No</td><td class="c">Swap pieces</td><td class="c">Mostly rent</td></tr>
+            <tr><td>Premium kids brands</td><td class="c yes">Yes</td><td class="c yes">Yes</td><td class="c">Limited</td><td class="c">Buy only</td></tr>
+            <tr><td>Local carpenters</td><td class="c no">No</td><td class="c">Custom</td><td class="c">Custom</td><td class="c">Buy only</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="band">
+    <div class="in">
+      <h2>Safety first, every piece</h2>
+      <div class="g4" style="margin-top:14px">
+        <div class="card"><h3>BIS-certified</h3><p class="mut">Made to IS 17631 to 17636 by BIS-licensed makers.</p></div>
+        <div class="card"><h3>Wall-anchored</h3><p class="mut">Our own crews install and anchor every Loop room.</p></div>
+        <div class="card"><h3>Rounded and low-VOC</h3><p class="mut">Rounded edges, water-based finishes. No lead, BPA or phthalates.</p></div>
+        <div class="card"><h3>No MDF, ever</h3><p class="mut">FSC-certified solid wood and plywood. No particle board.</p></div>
+      </div>
+      <div class="card" style="margin-top:22px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;background:var(--card2)">
+        <div><h2 style="margin:0">See a real Playce room first</h2><p style="margin:0">Three model rooms at our HSR Layout studio, Bengaluru.</p></div>
+        <a class="btn y" href="#visit">Book a free studio visit</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GROW -->
+<section class="view" id="v-grow">
+  <div class="band" style="padding-bottom:20px">
+    <div class="in">
+      <h1>One piece. Many functions.</h1>
+      <p class="lead">Bought once, converted at every stage. Patent-pending Click-Lock joints let you change a piece's shape in under 20 minutes, with no tools.</p>
+      <div class="chips"><span class="tag y">Ships across India</span><span class="tag">5-year frame warranty</span><span class="tag">Spare parts for 10 years</span><span class="tag">No-cost EMI, 6 months</span></div>
+    </div>
+  </div>
+  <div class="band" style="padding-top:8px">
+    <div class="in g4" id="growGrid"></div>
+  </div>
+  <div class="band ybg">
+    <div class="in g2">
+      <div class="card"><span class="tag o">Bundle</span><h2 style="margin-top:8px">Nursery Bundle</h2><p>NestGrow Convertible Crib with StackCube Storage. One nursery that becomes a big-kid room.</p><p><span class="price">₹37,999</span> <s class="mut">₹40,998</s></p><button class="btn" data-add="bundle">Add bundle to cart</button></div>
+      <div class="card"><span class="tag">Conversion kits</span><h2 style="margin-top:8px">Upgrade years later. Don't replace.</h2><p>Each new stage needs a kit of rails, panels or legs, priced <b class="nw">₹2,500</b> to <b class="nw">₹4,000</b>. We'll remind you when it's time.</p><button class="btn gh" data-add="sofakit">Add NestGrow sofa kit · ₹3,499</button></div>
+    </div>
+  </div>
+  <div class="band">
+    <div class="in">
+      <h2>How Grow adapts</h2>
+      <div class="g3" style="margin-top:12px">
+        <div class="card"><h3>Click-Lock joints</h3><p class="mut">Tool-free connectors. Same frame, new shape, in under 20 minutes.</p></div>
+        <div class="card"><h3>Conversion kits</h3><p class="mut">Buy the next stage only when your child gets there. Kits carry the same 2-year warranty as hardware.</p></div>
+        <div class="card"><h3>Built to last</h3><p class="mut">HDHMR and E-0 plywood with solid beech, Hettich hardware and child-safe Asian Paints Woodtech finish.</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="band obg">
+    <div class="in calc">
+      <div>
+        <h2>What it really costs per year</h2>
+        <label for="cProd">Product</label>
+        <select id="cProd"></select>
+        <label for="cYrs">Years your child uses it: <span id="cYrsOut"></span></label>
+        <input type="range" id="cYrs" min="1" max="14" value="6">
+        <p class="small" style="color:inherit">Kits for later stages cost <span class="nw">₹2,500</span> to <span class="nw">₹4,000</span> each, bought only when needed.</p>
+      </div>
+      <div class="card" style="text-align:center">
+        <div class="small">Cost per year of use</div>
+        <div class="big" id="cYear"></div>
+        <div style="font-weight:700;font-size:18px" id="cMonth"></div>
+        <p class="small" style="margin-top:12px">For comparison, parents told us one kids room setup often costs <span class="nw">₹50,000+</span>, rebuilt 3 to 4 times per child.</p>
+      </div>
+    </div>
+  </div>
+  <div class="band">
+    <div class="in">
+      <h2>The playroom collection</h2>
+      <p class="lead">Learning and play pieces in solid beech and birch. Launching after our core four.</p>
+      <div class="g4" id="playGrid" style="grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr))" style="margin-top:14px"></div>
+    </div>
+  </div>
+  <div class="band dark">
+    <div class="in g3">
+      <div><h3>Delivery</h3><p>Metros in 5 to 7 days. Flat-pack boxes up to 30 kg. Self-assembly in under 20 minutes, or paid install for <span class="nw">₹799</span> in 8 metros.</p></div>
+      <div><h3>Also on</h3><p>Amazon.in and Pepperfry, at the same price as playce.in.</p></div>
+      <div><h3>Baby shower coming up?</h3><p>Start a Playce gift registry. Gift wrapping included. A gift that lasts the whole childhood.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CRIB DETAIL -->
+<section class="view" id="v-crib">
+  <div class="band">
+    <div class="in">
+      <div class="crumbs"><a href="#grow">Grow</a> / NestGrow Convertible Crib</div>
+      <div class="pd">
+        <div>
+          <img class="ph" id="pdMain" src="img/grow-nest.jpg" alt="NestGrow Crib at every stage" style="aspect-ratio:3/2">
+          <div class="gal" id="pdGal"><button class="on" data-src="grow-nest" aria-label="All three stages"><img src="img/grow-nest.jpg" alt=""></button><button data-src="nest-render" aria-label="Crib and chair render"><img src="img/nest-render.jpg" alt=""></button><button data-src="pack-box" aria-label="Packaging"><img src="img/pack-box.jpg" alt=""></button></div>
+        </div>
+        <div>
+          <span class="tag y">Age 0 to 6</span>
+          <h1 style="margin-top:8px">NestGrow Convertible Crib</h1>
+          <p>Crib, then toddler bed, then kids sofa. One frame for six years.</p>
+          <p><span class="price">₹27,999</span> <span class="small">incl. GST</span></p>
+          <p class="small">No-cost EMI from <b class="nw">₹4,667/month</b> for 6 months. That's about <b class="nw">₹390 a month</b> over 6 years of use.</p>
+          <div class="chips" style="margin:14px 0"><button class="btn" data-add="nest">Add to cart</button><button class="btn gh" data-add="sofakit">Add sofa kit · ₹3,499</button></div>
+          <label for="kidAge">Your child's age today</label>
+          <select id="kidAge"><option value="-0.5">Due soon</option><option value="0" selected>Under 1</option><option value="1">1 year</option><option value="2">2 years</option><option value="3">3 years</option><option value="4">4 years</option></select>
+          <div class="tl" id="pdTl"></div>
+          <label class="toggle"><input type="checkbox" checked id="remind"> Remind me when it's time to convert</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="band" style="padding-top:0">
+    <div class="in g2" style="align-items:start">
+      <div>
+        <details open><summary>Materials</summary><div><ul class="plain"><li>18 mm HDHMR boards (termite resistant) and E-0 zero-emission plywood base and slats</li><li>Laminate with rounded edge banding</li><li>Water-based, low-VOC Woodtech finish</li><li>Hettich hardware with custom Click-Lock joints</li></ul></div></details>
+        <details><summary>What's in the box</summary><div><ul class="plain"><li>5-ply kraft carton, under 30 kg per box</li><li>Honeycomb panels instead of thermocol, pulp corners from waste paper</li><li>Paper hardware pouch, colour-coded by stage</li><li>QR card with a 20-minute assembly video</li><li>The lid unfolds into a height chart</li></ul><div class="g2" style="grid-template-columns:1fr 1fr;gap:10px"><img class="ph" src="img/pack-box.jpg" alt="Kraft flat-pack carton" style="aspect-ratio:1"><img class="ph" src="img/pack-corners.jpg" alt="Moulded pulp corners" style="aspect-ratio:1"></div></div></details>
+        <details><summary>Delivery and install</summary><div><p>Metros in 5 to 7 days. Paid install at <span class="nw">₹799</span> in 8 metros.</p></div></details>
+      </div>
+      <div class="card">
+        <h3>Warranty</h3>
+        <div class="scroll"><table>
+          <tr><th>Part</th><th>Cover</th></tr>
+          <tr><td>Frame and joints</td><td class="nw">5 years</td></tr>
+          <tr><td>Hardware</td><td class="nw">2 years</td></tr>
+          <tr><td>Laminate and finish</td><td class="nw">1 year</td></tr>
+          <tr><td>Conversion kits</td><td class="nw">2 years</td></tr>
+          <tr><td>Termite and borer</td><td class="nw">5 years</td></tr>
+        </table></div>
+        <p class="small" style="margin-top:10px">Registered by QR, no bill needed. Transfers to the next owner. Spare parts sold for 10 years.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LOOP -->
+<section class="view" id="v-loop">
+  <div class="band">
+    <div class="in">
+      <h1>Outgrow it? Swap it.</h1>
+      <p class="lead">A complete themed room, installed and wall-anchored in one visit. All pincodes in Bengaluru.</p>
+      <div class="cfg">
+        <div>
+          <div class="lv"><img class="ph" id="loopImg" alt="" style="aspect-ratio:3/4;height:100%"><div class="card" id="loopInfo"></div></div>
+          <h3 style="margin-top:18px">Pick a theme</h3>
+          <div class="chips" id="themeChips"></div>
+          <h3 style="margin-top:18px">Pick a room for your child's stage</h3>
+          <div class="bundles" id="bundles"></div>
+          <p class="note">Individual pieces from ₹349 a month. Mattresses are always sold new, never rented.</p>
+        </div>
+        <div class="card sum">
+          <h3 id="sumName"></h3>
+          <div class="seg" id="plans" role="group" aria-label="Plan length"></div>
+          <div class="big" style="margin-top:14px"><span id="sumRent"></span><span style="font-size:.4em;font-family:'DM Sans'">/month</span></div>
+          <p class="small">+18% GST. 24-month plans lock your price.</p>
+          <label class="toggle"><input type="checkbox" id="cover" checked> Damage cover, ₹149/month</label>
+          <h3 style="margin-top:12px">To move in</h3>
+          <div id="moveIn"></div>
+          <a class="btn" href="#book" style="width:100%;margin-top:14px">Book this room</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="band ybg">
+    <div class="in g2">
+      <div><h2>Base frame + theme skin</h2><p>Kids wear out and tire of the skin, not the frame. So we split them. The neutral base frame lasts about 5 years and serves 2 to 3 families. Panels, fabric, drawer fronts and decals get swapped for each new theme or stage.</p><p><b>Refreshing a room costs a quarter of a new one.</b> That saving is why rent starts at <span class="nw">₹1,999</span>.</p></div>
+      <div class="card"><h3>Add-ons</h3><div class="row"><span>Setup and install</span><span>₹999</span></div><div class="row"><span>Theme or stage swap</span><span>₹2,999</span></div><div class="row"><span>Damage cover (up to ₹10,000 a tenure)</span><span>₹149/mo</span></div><div class="row"><span>Refundable deposit</span><span>1 month</span></div><div class="row"><span>6-month plan</span><span>+15%</span></div><div class="row"><span>24-month plan</span><span>−10%</span></div></div>
+    </div>
+  </div>
+  <div class="band">
+    <div class="in g2" style="align-items:start">
+      <div><h2>How Loop works</h2><div class="steps" style="margin-top:12px">
+        <div class="step"><div><h3>Pick your room</h3><p>Choose the stage and theme online, or at our studio.</p></div></div>
+        <div class="step"><div><h3>Quick online KYC</h3><p>A digital rental agreement. Takes a few minutes.</p></div></div>
+        <div class="step"><div><h3>Room ready in 72 hours</h3><p>Our crew delivers, installs and wall-anchors in under 3 hours.</p></div></div>
+        <div class="step"><div><h3>Swap as they grow</h3><p>New stage or theme for ₹2,999. Free pickup when you're done.</p></div></div>
+      </div></div>
+      <div><h2>Made for</h2><div class="g2" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));margin-top:12px">
+        <div class="card"><h3>Renters and relocators</h3><p class="mut">A proper kids room, nothing bulky to move later.</p></div>
+        <div class="card"><h3>New parents</h3><p class="mut">A safe nursery now, a toddler room next, no rebuying.</p></div>
+        <div class="card"><h3>NRI returnees</h3><p class="mut">Back for 2 to 3 years? A furnished kids room on day one.</p></div>
+      </div></div>
+    </div>
+  </div>
+  <div class="band" style="background:#FBE3D8">
+    <div class="in" style="display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center">
+      <h2 style="margin:0">Refer a family. You both get ₹1,000.</h2><a class="btn y" href="#book">Start with your room</a>
+    </div>
+  </div>
+</section>
+
+<!-- BOOK -->
+<section class="view" id="v-book">
+  <div class="band">
+    <div class="in" style="max-width:760px">
+      <div class="crumbs"><a href="#loop">Loop</a> / Book a room</div>
+      <h1>Book your Loop room</h1>
+      <div class="stepper" id="stepper"></div>
+      <div class="card" id="bookBody"></div>
+      <p class="note">Demo booking for the Playce mockup. No payment is taken and no data is stored.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SAFETY -->
+<section class="view" id="v-safety">
+  <div class="band">
+    <div class="in g2" style="align-items:start">
+      <div>
+        <h1>Rented, never used-looking.</h1>
+        <p class="lead">Every Loop piece goes through Fresh Playce before it reaches your home. 85% of returned sets are refurbished and rented again. The rest are donated.</p>
+        <div class="steps" style="margin-top:18px">
+          <div class="step"><div><h3>Inspect</h3><p>Frames and joints checked. Every piece has a QR history.</p></div></div>
+          <div class="step"><div><h3>Repair</h3><p>Hardware and laminate fixed, theme skin replaced.</p></div></div>
+          <div class="step"><div><h3>Deep clean</h3><p>Steam and child-safe disinfectant.</p></div></div>
+          <div class="step"><div><h3>Second check</h3><p>A different technician checks the work.</p></div></div>
+          <div class="step"><div><h3>Certify and seal</h3><p>Paper seal band and a Fresh Playce card with date, checks and technician.</p></div></div>
+        </div>
+      </div>
+      <div style="position:sticky;top:130px">
+        <div class="pass">
+          <svg class="qr" viewBox="0 0 21 21" id="qr" aria-label="QR code"></svg>
+          <div><div style="font:400 30px/1 'Caveat Brush',cursive;color:#C2541E">QR passport</div><div style="font-size:14px;margin-top:6px"><b>Piece</b> TE-BED-0412 · Tiny Explorer bed<br><b>Stage</b> 2 to 5 · Jungle Safari skin<br><b>Families served</b> 2<br><b>Repairs</b> 1 hinge, 1 skin swap<br><b>Furniture reused</b> 38 kg</div></div>
+        </div>
+        <p class="note">Sample passport. Scan any piece to see its own history.</p>
+        <div class="card" style="margin-top:16px">
+          <h3>Materials we use</h3>
+          <div class="row"><span>Woods</span><span>FSC beech, birch, oak, pine</span></div>
+          <div class="row"><span>Finishes</span><span>Water-based, low-VOC</span></div>
+          <div class="row"><span>Textiles</span><span>GOTS organic cotton</span></div>
+          <div class="row"><span>Never</span><span>MDF, lead, BPA</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="band obg">
+    <div class="in">
+      <h2>Our promises</h2>
+      <div class="g4" style="margin-top:12px">
+        <div class="card"><h3>Safety guarantee</h3><p class="mut">Fails a BIS test or tips over from a defect: free replacement or full refund, for 5 years.</p></div>
+        <div class="card"><h3>Fresh Playce promise</h3><p class="mut">Piece arrives stained, smelly or faulty: replaced in 48 hours, rent-free for a month.</p></div>
+        <div class="card"><h3>72-hour fix</h3><p class="mut">Any Loop fault not caused by misuse, repaired free within 72 hours in Bengaluru.</p></div>
+        <div class="card"><h3>Easy claims</h3><p class="mut">Scan the QR, send a photo. Reply in 48 hours, fixed in 5 working days.</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="band">
+    <div class="in g2" style="align-items:start">
+      <div>
+        <h2>Damage, in plain words</h2>
+        <p><b>Normal wear and tear is free.</b> Scratches, small chips, scuffs, fading, crayon and stickers we can clean.</p>
+        <p><b>Accidental breakage is ₹0 with damage cover</b> (₹149/month, up to ₹10,000 a tenure). Without it, you pay a fixed charge.</p>
+        <p class="small">Loss or deliberate damage: the piece's depreciated value, never more. Not covered: misuse, overloading, water damage, DIY repairs. Deposit back in 7 days.</p>
+      </div>
+      <div class="card">
+        <h3>Charges without cover</h3>
+        <div class="row"><span>Hinge or drawer</span><span>₹399</span></div>
+        <div class="row"><span>Torn fabric skin</span><span>₹499</span></div>
+        <div class="row"><span>Broken decal panel</span><span>₹499</span></div>
+        <div class="row"><span>Cracked board</span><span>₹1,499</span></div>
+        <h3 style="margin-top:16px">Depreciated value for loss</h3>
+        <div class="row"><span>Year 1</span><span>80%</span></div><div class="row"><span>Year 2</span><span>60%</span></div><div class="row"><span>Year 3</span><span>45%</span></div><div class="row"><span>Year 4 on</span><span>30%</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="view" id="v-about">
+  <div class="band">
+    <div class="in">
+      <h1>No child's furniture ends up in a landfill while it still works.</h1>
+      <p class="lead">That's our vision. Our mission: design kids furniture that lasts a whole childhood. Pieces families own that adapt, and themed rooms they rent that are passed on.</p>
+      <div class="g4" style="margin-top:20px">
+        <div class="card" style="background:#FBE3D8;border:0"><h3>Safe</h3><p>ISI-marked, anchored, rounded.</p></div>
+        <div class="card" style="background:#F8ECCB;border:0"><h3>Lasting</h3><p>10+ years per piece, 2 to 3 families per room.</p></div>
+        <div class="card" style="background:#EFE3D3;border:0"><h3>Playful</h3><p>Rooms that teach letters, numbers and balance.</p></div>
+        <div class="card"><h3>Responsible</h3><p>No rebuying, no clutter, nothing wasted.</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="band ybg">
+    <div class="in">
+      <h2>The founders</h2>
+      <div class="g3" style="margin-top:14px" id="founders"></div>
+      <p style="margin-top:16px">Craft, safety first, nothing wasted. Indian design for Indian homes.</p>
+    </div>
+  </div>
+  <div class="band" id="visit">
+    <div class="in g2" style="align-items:start">
+      <div>
+        <h2>Visit the studio</h2>
+        <p>Walk through three model rooms and try a Click-Lock conversion yourself.</p>
+        <p><b>Playce LLP</b><br>5th Main, Sector 7, HSR Layout<br>Bengaluru 560102<br>contact@playce.in</p>
+        <p class="small">Warehouse and Fresh Playce bay: Hosur Road.</p>
+      </div>
+      <form class="card" id="visitForm" novalidate>
+        <h3>Book a free room visit</h3>
+        <label for="vName">Your name</label><input type="text" id="vName" autocomplete="name">
+        <label for="vPhone">Mobile number</label><input type="tel" id="vPhone" inputmode="numeric" placeholder="10-digit mobile">
+        <label for="vDate">Preferred date</label><input type="date" id="vDate">
+        <label for="vSlot">Time</label><select id="vSlot"><option>11:00 am</option><option>2:00 pm</option><option>5:00 pm</option></select>
+        <div class="err" id="vErr"></div>
+        <button class="btn" type="submit" style="width:100%">Book my visit</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="view" id="v-faq">
+  <div class="band">
+    <div class="in g2" style="align-items:start">
+      <div><h1>Questions parents ask</h1><div id="faqs"></div></div>
+      <form class="card" id="cForm" novalidate style="position:sticky;top:130px">
+        <h3>Still curious? Write to us</h3>
+        <label for="cName">Name</label><input type="text" id="cName">
+        <label for="cMail">Email</label><input type="email" id="cMail">
+        <label for="cMsg">Message</label><textarea id="cMsg" rows="4"></textarea>
+        <div class="err" id="cErr"></div>
+        <button class="btn" type="submit" style="width:100%">Send</button>
+        <p class="small" style="margin-top:10px">Or email contact@playce.in. We reply within 48 hours.</p>
+      </form>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="band">
+  <div class="in">
+    <div class="fcols">
+      <div><a class="logo" href="#home"><img src="img/logo-full.png" alt="Playce, spaces that grow with your child" style="width:200px;height:auto;display:block"></a><div class="badges"><span>BIS certified</span><span>FSC wood</span><span>Low-VOC</span><span>GOTS cotton</span></div></div>
+      <div><h3>Shop</h3><ul><li><a href="#grow">Grow · Buy</a></li><li><a href="#crib">NestGrow Crib</a></li><li><a href="#loop">Loop · Rent</a></li><li><a href="#book">Book a room</a></li></ul></div>
+      <div><h3>Playce</h3><ul><li><a href="#safety">Fresh Playce and safety</a></li><li><a href="#about">About us</a></li><li><a href="#visit">Visit the studio</a></li><li><a href="#faq">FAQ</a></li></ul></div>
+      <div><h3>Contact</h3><ul><li>5th Main, Sector 7, HSR Layout, Bengaluru 560102</li><li>contact@playce.in</li><li>Instagram @playce.in</li></ul></div>
+    </div>
+    <p class="small" style="margin-top:28px">We never collect data about children. Parent data only, with clear consent. Returns, grievance officer and terms as per the Consumer Protection (E-Commerce) Rules, 2020.<br>© Playce LLP. Website mockup built from the Playce business plan; not a live store.</p>
+  </div>
+</footer>
+
+<div class="mbar"><a class="btn y" href="#grow">Shop Grow</a><a class="btn" href="#loop">Rent Loop</a></div>
+<div id="veil"></div>
+<aside id="cart" aria-label="Cart">
+  <div style="display:flex;justify-content:space-between;align-items:center"><h2 style="margin:0">Your cart</h2><button class="cartb" id="cartX" aria-label="Close cart">✕</button></div>
+  <div id="cartBody" style="flex:1;overflow:auto;margin-top:10px"></div>
+  <div id="cartFoot"></div>
+</aside>
+
+<script>
+{
+const W1='#E6B47C',W2='#C98F55',W3='#9E6837',O='#DD4124',O2='#B5341B',Y='#D39C2F',Y2='#A9781C',CH='#56352D',CR='#FFF6E8';
+const inr=n=>'₹'+Math.round(n).toLocaleString('en-IN');
+const R=(x,y,w,h,f,rx=0,e='')=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" fill="${f}" ${e}/>`;
+const sh=(cx,b,rx)=>`<ellipse cx="${cx}" cy="${b+5}" rx="${rx}" ry="9" fill="#3a1d10" opacity=".16"/>`;
+const post=(x,b,h)=>R(x,b-h,20,h,W2,8)+R(x+4,b-h+8,5,h-16,W1,3)+`<circle cx="${x+10}" cy="${b-h}" r="11" fill="${W1}"/>`;
+
+function crib(x,b,age){
+  const st=age<2?0:age<5?1:2;let s=sh(x+150,b,175);
+  if(st==0){
+    s+=post(x,b,200)+post(x+280,b,200)+R(x+20,b-64,260,16,W3,4)+R(x+22,b-96,256,30,CR,10)+R(x+150,b-104,118,26,Y,10)+`<circle cx="${x+80}" cy="${b-108}" r="13" fill="${O}"/>`+R(x+20,b-186,260,14,W1,6);
+    for(let i=0;i<11;i++)s+=R(x+31+i*23.6,b-172,8,110,W1,4);
+  }else if(st==1){
+    s+=post(x,b,180)+post(x+280,b,125)+R(x+20,b-150,260,10,W3,4);
+    for(let i=0;i<11;i++)s+=R(x+31+i*23.6,b-140,7,76,W3,3,'opacity=".5"');
+    s+=R(x+20,b-64,260,16,W3,4)+R(x+22,b-96,256,30,CR,10)+R(x+34,b-114,62,24,'#fff',12,'stroke="#e6d3bb"')+R(x+130,b-108,148,30,O,12)+R(x+20,b-130,120,12,W1,6);
+    for(let i=0;i<4;i++)s+=R(x+32+i*27,b-118,8,56,W1,4);
+  }else{
+    s+=R(x+14,b-24,14,24,W3,3)+R(x+272,b-24,14,24,W3,3)+R(x+4,b-32,292,12,W2,5)+R(x,b-94,300,66,O2,16)+R(x+24,b-184,252,104,O,24)+R(x+38,b-172,108,72,'#E85B3E',18)+R(x+154,b-172,108,72,'#E85B3E',18)+R(x+26,b-112,248,34,'#E85B3E',14)+R(x-8,b-142,46,118,O2,20)+R(x+262,b-142,46,118,O2,20)+`<rect x="${x+52}" y="${b-152}" width="54" height="46" rx="12" fill="${Y}" transform="rotate(-10 ${x+79} ${b-129})"/>`;
+  }
+  return s;
+}
+function kidbed(x,b,acc){
+  return sh(x+150,b,170)+R(x,b-175,24,175,W2,10)+R(x+4,b-168,6,160,W1,3)+R(x+276,b-112,24,112,W2,10)+R(x+20,b-72,260,44,W1,8)+R(x+40,b-62,100,24,W3,5)+R(x+160,b-62,100,24,W3,5)+R(x+80,b-53,20,5,CR,2)+R(x+200,b-53,20,5,CR,2)+R(x+18,b-28,10,28,W3,3)+R(x+272,b-28,10,28,W3,3)+R(x+22,b-102,256,32,CR,10)+R(x+34,b-122,64,26,'#fff',12,'stroke="#e6d3bb"')+R(x+112,b-108,166,38,acc,14);
+}
+function desk(x,b,age){
+  let s=sh(x+110,b,130);
+  if(age<5){
+    s+=R(x,b-82,170,14,W1,6)+R(x,b-70,170,6,W3,3)+R(x+12,b-66,13,66,W2,5)+R(x+145,b-66,13,66,W2,5)+R(x+28,b-108,26,26,O,4)+R(x+60,b-102,20,20,Y,4)+`<polygon points="${x+28},${b-108} ${x+54},${b-108} ${x+41},${b-128}" fill="${CH}"/>`+R(x+110,b-104,22,22,'#6E8B74',11)+R(x+190,b-46,46,10,W1,5)+R(x+196,b-36,8,36,W2,3)+R(x+222,b-36,8,36,W2,3);
+  }else{
+    const k=Math.min(age-5,9),h=118+k*5,sy=b-60-k*2;
+    s+=`<polygon points="${x},${b-h+8} ${x+170},${b-h-12} ${x+170},${b-h} ${x},${b-h+20}" fill="${W1}"/>`+R(x+8,b-h+16,16,h-16,W2,5)+R(x+146,b-h+4,16,h-4,W2,5)+R(x+24,b-h+22,122,26,W2,4)+R(x+75,b-h+32,20,5,CR,2)+R(x+24,b-30,122,8,W3,3)+R(x+28,b-h-36,4,40,CH,2)+`<path d="M${x+12} ${b-h-34} L${x+48} ${b-h-34} L${x+39} ${b-h-56} L${x+21} ${b-h-56}Z" fill="${Y}"/>`+`<rect x="${x+80}" y="${b-h-14}" width="50" height="10" rx="2" fill="${O}" transform="rotate(-7 ${x+105} ${b-h-9})"/>`;
+    s+=R(x+178,sy,64,12,O,6)+R(x+228,sy-80,14,92,O,7)+R(x+184,sy+12,8,b-sy-12,W2,3)+R(x+228,sy+12,8,b-sy-12,W2,3);
+  }
+  return s;
+}
+function cube(x,b,age){
+  const st=age<4?0:age<9?1:2,u=66,rows=[1,3,4][st];let s=sh(x+66,b,80);
+  const bk=[O,Y,CR,'#6E8B74'];
+  for(let r=0;r<rows;r++)for(let c=0;c<2;c++){
+    const X=x+c*u,Yy=b-(r+1)*u;
+    if(st==2&&r>=2)continue;
+    s+=R(X,Yy,u-2,u-2,W1,6);
+    if(st==0)s+=R(X+7,Yy+10,u-16,u-18,c?Y:O,5)+R(X+24,Yy+18,18,5,CH,2);
+    else{s+=R(X+6,Yy+6,u-14,u-14,'#7A4F31',4);for(let k=0;k<4;k++)s+=R(X+10+k*11,Yy+16+(k%2)*5,9,u-24-(k%2)*5,bk[(k+r+c)%4],2)}
+  }
+  if(st==2)s+=R(x,b-4*u,2*u-2,2*u-2,W1,6)+R(x+6,b-4*u+6,2*u-14,2*u-14,'#EDC48F',4)+R(x+u-2,b-4*u+6,2,2*u-14,W3)+`<circle cx="${x+u-10}" cy="${b-3*u}" r="4" fill="${CH}"/><circle cx="${x+u+6}" cy="${b-3*u}" r="4" fill="${CH}"/>`;
+  if(st==0)s+=`<circle cx="${x+40}" cy="${b-u-16}" r="16" fill="${W3}"/><circle cx="${x+29}" cy="${b-u-30}" r="7" fill="${W3}"/><circle cx="${x+51}" cy="${b-u-30}" r="7" fill="${W3}"/><circle cx="${x+40}" cy="${b-u-14}" r="6" fill="${W1}"/>`;
+  return s;
+}
+function climb(x,b,age){
+  let s=sh(x+130,b,140);
+  if(age<5){
+    const cx=x+130;
+    s+=`<path d="M${x} ${b} A130 130 0 0 1 ${x+260} ${b}" fill="none" stroke="${W2}" stroke-width="14"/><path d="M${x+30} ${b} A100 100 0 0 1 ${x+230} ${b}" fill="none" stroke="${W1}" stroke-width="12"/>`;
+    for(let k=1;k<9;k++){const a=Math.PI*k/9,c=Math.cos(a),n=Math.sin(a);s+=`<line x1="${cx-100*c}" y1="${b-100*n}" x2="${cx-130*c}" y2="${b-130*n}" stroke="${k%2?O:Y}" stroke-width="9" stroke-linecap="round"/>`}
+  }else{
+    s+=`<path d="M${x} ${b-84} Q${x+130} ${b-200} ${x+260} ${b-84}" fill="none" stroke="${W2}" stroke-width="12"/>`+R(x,b-84,260,64,W1,10)+R(x+8,b-106,244,26,O,12);
+    for(let i=0;i<3;i++){const X=x+14+i*82;s+=R(X,b-74,74,44,'#7A4F31',5);for(let k=0;k<4;k++)s+=R(X+8+k*14,b-68,10,36,[Y,CR,O,'#6E8B74'][(i+k)%4],2)}
+    s+=R(x+10,b-20,12,20,W3,3)+R(x+238,b-20,12,20,W3,3);
+  }
+  return s;
+}
+function kid(x,b,age){
+  const H=72+age*15.5,r=Math.max(13,H*.085),leg=H*.42,tor=H*.34,hy=b-leg-tor-r+2;
+  let s=R(x+60,b-330,30,330,CR,4,'stroke="#d9c3a2"');
+  for(let i=1;i<15;i++)s+=R(x+60,b-i*22,i%2?10:18,3,CH,1);
+  s+=R(x+60,b-H-1.5,30,3,O)+`<polygon points="${x+56},${b-H} ${x+42},${b-H-9} ${x+42},${b-H+9}" fill="${O}"/>`;
+  s+=sh(x,b,30)+R(x-14,b-leg,12,leg,CH,5)+R(x+2,b-leg,12,leg,CH,5)+R(x-18,b-9,18,9,'#2a1a14',4)+R(x,b-9,18,9,'#2a1a14',4)+R(x-29,b-leg-tor+8,11,tor*.85,Y2,5)+R(x+18,b-leg-tor+8,11,tor*.85,Y2,5)+R(x-20,b-leg-tor,40,tor+6,Y,12)+`<circle cx="${x}" cy="${hy}" r="${r}" fill="#C98A62"/><path d="M${x-r} ${hy-1} A${r} ${r} 0 0 1 ${x+r} ${hy-1} Z" fill="${CH}"/>`;
+  return s;
+}
+let seed=7,gid=0;const rnd=()=>(seed=seed*16807%2147483647)/2147483647;
+const TH={
+  studio:{name:'Playce studio',wall:'#F3E1C7',acc:O,sky:['#BFE3F0','#EAF6F9']},
+  space:{name:'Space Explorer',wall:'#2F3A5E',acc:Y,sky:['#0E1530','#28366B']},
+  jungle:{name:'Jungle Safari',wall:'#D5E4BE',acc:'#E0782F',sky:['#BFE3F0','#EAF6F9']},
+  ocean:{name:'Ocean Mystery',wall:'#C6E2E8',acc:O,sky:['#9BD3E6','#E2F4F8']},
+  winter:{name:'Winter Woods',wall:'#E6ECEF',acc:'#C2541E',sky:['#C9D8E4','#F2F6F9']}
+};
+function decor(t){
+  seed=11;let s='';
+  if(t=='studio'){s+=`<path d="M230 52 Q620 100 1010 52" fill="none" stroke="${CH}" stroke-width="2"/>`;for(let i=0;i<14;i++){const x=250+i*54,y=52+48*Math.sin(Math.PI*(x-230)/780)*.98;s+=`<polygon points="${x-16},${y} ${x+16},${y} ${x},${y+34}" fill="${[O,Y,CR,'#6E8B74'][i%4]}"/>`}}
+  if(t=='space'){for(let i=0;i<40;i++){const x=230+rnd()*780,y=30+rnd()*130,r=2+rnd()*4;s+=`<circle cx="${x}" cy="${y}" r="${r}" fill="#F7D774" opacity="${.5+rnd()*.5}"/>`}s+=`<circle cx="700" cy="96" r="42" fill="${O}"/><circle cx="688" cy="84" r="10" fill="${O2}"/><ellipse cx="700" cy="96" rx="74" ry="14" fill="none" stroke="${Y}" stroke-width="6" transform="rotate(-14 700 96)"/><circle cx="420" cy="80" r="22" fill="#9FB3E8"/>`}
+  if(t=='jungle'){for(let i=0;i<18;i++){const x=230+i*44+rnd()*10,l=40+rnd()*70;s+=`<path d="M${x} 0 Q${x+8} ${l/2} ${x} ${l}" stroke="#5E8C4A" stroke-width="3" fill="none"/><ellipse cx="${x+6}" cy="${l}" rx="18" ry="9" fill="${i%2?'#6FA35A':'#4E7F3E'}" transform="rotate(${-30+rnd()*60} ${x+6} ${l})"/>`}s+=`<circle cx="790" cy="140" r="20" fill="${W3}"/><circle cx="790" cy="146" r="11" fill="${W1}"/><circle cx="772" cy="130" r="7" fill="${W3}"/><circle cx="808" cy="130" r="7" fill="${W3}"/>`}
+  if(t=='ocean'){for(let k=0;k<3;k++){let d=`M230 ${60+k*36}`;for(let x=230;x<1010;x+=60)d+=` q30 -16 60 0`;s+=`<path d="${d}" fill="none" stroke="#5BA7BE" stroke-width="5" opacity="${.9-k*.25}"/>`}[[380,120,O],[620,90,Y],[880,130,'#F48A5E']].forEach(([x,y,c])=>s+=`<ellipse cx="${x}" cy="${y}" rx="28" ry="16" fill="${c}"/><polygon points="${x+24},${y} ${x+44},${y-14} ${x+44},${y+14}" fill="${c}"/><circle cx="${x-14}" cy="${y-3}" r="3" fill="${CH}"/>`)}
+  if(t=='winter'){for(let i=0;i<9;i++){const x=250+i*90,h=60+rnd()*60;s+=`<polygon points="${x},${165-h} ${x-30},165 ${x+30},165" fill="${i%2?'#7FA79B':'#5F8C80'}"/><rect x="${x-4}" y="165" width="8" height="10" fill="${W3}"/>`}for(let i=0;i<30;i++)s+=`<circle cx="${230+rnd()*780}" cy="${20+rnd()*100}" r="${2+rnd()*3}" fill="#fff"/>`}
+  return s;
+}
+function scene(age,t='studio',loop=false){
+  const T=TH[t],b=440,g='sk'+t+(gid++);
+  let s=`<svg viewBox="0 0 1200 520" role="img" aria-label="Illustrated ${T.name} kids room for age ${age}"><defs><linearGradient id="${g}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${T.sky[0]}"/><stop offset="1" stop-color="${T.sky[1]}"/></linearGradient></defs>`;
+  s+=R(0,0,1200,b,T.wall)+decor(t)+R(44,64,162,202,W2,8)+R(54,74,142,182,`url(#${g})`,4)+(t=='space'?`<circle cx="150" cy="120" r="22" fill="#F6E7B0"/>`:`<circle cx="150" cy="115" r="22" fill="#FFD36B"/>`)+R(122,74,6,182,W2)+R(54,162,142,6,W2)+R(36,262,178,12,W1,4);
+  s+=R(0,b-8,1200,8,CR)+R(0,b,1200,80,W2);for(let i=0;i<8;i++)s+=R(i*160+(i%2)*40,b+18+(i%3)*20,2,20,W3);s+=R(0,b+38,1200,2,W3,0,'opacity=".5"');
+  s+=`<ellipse cx="560" cy="${b+42}" rx="340" ry="28" fill="${T.acc}" opacity=".55"/><ellipse cx="560" cy="${b+42}" rx="300" ry="20" fill="none" stroke="${CR}" stroke-width="3" stroke-dasharray="10 8"/>`;
+  s+=`<g class="pop">`+(loop&&age>=5?kidbed(250,b,T.acc):crib(250,b,age))+desk(600,b,age)+cube(870,b,age)+kid(1080,b,age)+`</g></svg>`;
+  return s;
+}
+
+/* data */
+const GROW=[
+ {id:'nest',name:'NestGrow Convertible Crib',age:'0 to 6',yrs:6,price:27999,stages:[['Crib',.5],['Toddler bed',3],['Kids sofa',6]],f:crib,vb:'-40 -250 390 275',link:'#crib'},
+ {id:'level',name:'LevelUp Desk + chair',age:'2 to 14',yrs:12,price:16999,stages:[['Play table',3],['Study desk',10]],f:desk,vb:'-20 -230 290 250'},
+ {id:'stack',name:'StackCube Storage',age:'0 to 14',yrs:14,price:12999,stages:[['Toy cubes',2],['Bookshelf',6],['Wardrobe tower',11]],f:cube,vb:'-45 -275 220 290'},
+ {id:'climb',name:'Climb & Read',age:'1 to 8',yrs:7,price:14999,stages:[['Climbing frame',2],['Reading nook',6]],f:climb,vb:'-15 -165 290 185'}
+];
+const EXTRA={bundle:{name:'Nursery Bundle',price:37999},sofakit:{name:'NestGrow sofa kit',price:3499}};
+const BUND=[
+ {name:'Little Nest',ages:'0 to 2',rent:1999,age:1,items:'Crib, changing station, storage, decor kit'},
+ {name:'Tiny Explorer',ages:'2 to 5',rent:2299,age:3,items:'Toddler bed, play table set, toy storage, bookshelf'},
+ {name:'Adventure Room',ages:'5 to 9',rent:2799,age:7,items:'Bed with storage, desk and chair, bookshelf, themed skins'},
+ {name:'Focus Room',ages:'9 to 13',rent:2699,age:11,items:'Bed, ergonomic desk and chair, pinboard wall'}
+];
+const PLAY=[['Explorer Walker','1 to 3','Painted wood, rubber-rimmed wheels','walker'],['Activity Tree','1.5 to 5','Natural wood, steel wire loops','tree'],['MathStack Abacus','4 to 10','Beech pegs, sliding number tiles','mathstack'],['WordBuilder Table','4 to 9','Beech frame, wooden letter tiles','wordbuilder'],['Daisy Play Table','2 to 6','Birch ply, sage matte lacquer','daisy'],['Modular Lounger','3 to 12','Organic cotton-blend, washable','lounger'],['Peg Play','3 to 8','Beech pegboard seat and legs','peg'],["Chef's Kitchen",'3 to 8','Ply, acrylic safety mirrors','kitchen'],['Balance Beam','3 to 8','Flips from seesaw to bench','beam'],['Step Stool','2 to 8','Flip-over two-step boost','stool']];
+const SURV=[['Replaced kids furniture at least once',71],['Prefer furniture that converts with age',76],['Would rent if hygiene is guaranteed',59],['Spent ₹50,000+ on one kids room',38]];
+const WORRY=[['Hygiene',41],['Damage charges',27],['Build quality',19],['Other',13]];
+const FAQ=[
+ ['Grow','How long does a conversion take?','Under 20 minutes. Click-Lock joints need no tools, and each kit comes with a QR video.'],
+ ['Grow','Do I need to buy all the kits upfront?','No. Buy each kit (₹2,500 to ₹4,000) only when your child reaches the next stage.'],
+ ['Grow','What if I sell or pass it on?','The 5-year frame warranty transfers to the next owner. Spare parts are sold for 10 years.'],
+ ['Loop','Is rented furniture hygienic?','Every piece is inspected, repaired, steam-cleaned, checked by a second technician and sealed with a Fresh Playce card. If it arrives stained or faulty, we replace it in 48 hours and you get a month rent-free.'],
+ ['Loop','What does it cost to move in?','First month rent, a refundable one-month deposit and ₹999 setup, plus GST. Use the room builder on the Loop page to see your exact amount.'],
+ ['Loop','Can I change the theme or stage later?','Yes. A swap is ₹2,999 and our crew handles everything.'],
+ ['Loop','Do you rent mattresses?','Never. Mattresses are always sold new.'],
+ ['Safety','Is Playce furniture BIS-certified?','Yes. Made by BIS-licensed makers to IS 17631 to 17636, with rounded edges and low-VOC finishes.'],
+ ['Delivery','Where do you deliver?','Grow ships across India, metros in 5 to 7 days. Loop is in every Bengaluru pincode today.']
+];
+
+/* router */
+const ROUTE={visit:'about'};const views=[...document.querySelectorAll('.view')];
+function go(){
+  const h=location.hash.slice(1)||'home',v=ROUTE[h]||h,el=document.getElementById('v-'+v)?v:'home';
+  views.forEach(x=>x.classList.toggle('on',x.id=='v-'+el));
+  document.querySelectorAll('#nav a').forEach(a=>a.classList.toggle('on',a.getAttribute('href')=='#'+el||(el=='crib'&&a.getAttribute('href')=='#grow')||(el=='book'&&a.getAttribute('href')=='#loop')));
+  if(ROUTE[h])document.getElementById(h).scrollIntoView();else window.scrollTo(0,0);
+  if(el=='book')renderBook();
+}
+addEventListener('hashchange',go);
+
+/* home */
+const ageEl=document.getElementById('age');
+function stageName(p,a){let n=p.stages[0][0];p.stages.forEach(([s,x],i)=>{const lim=p.id=='nest'?[0,2,5]:p.id=='stack'?[0,4,9]:[0,5];if(a>=lim[i])n=s});return n}
+const RANGE={nest:[0,6],level:[2,14],stack:[0,14],climb:[1,8]};
+function drawHero(){
+  const a=+ageEl.value;document.getElementById('ageOut').textContent='Age '+a;
+  document.getElementById('heroScene').innerHTML=scene(a);
+  let f=GROW.filter(p=>a>=RANGE[p.id][0]&&a<=RANGE[p.id][1]).map(p=>`<div class="fit"><span><b>${p.name}</b><br><span class="small">Now a ${stageName(p,a).toLowerCase()}</span></span><span class="tag y">Grow</span></div>`).join('');
+  const lb=BUND.find(x=>{const [lo,hi]=x.ages.split(' to ').map(Number);return a>=lo&&a<hi})||(a==13?BUND[3]:null);
+  f+=lb?`<div class="fit"><span><b>${lb.name} room</b><br><span class="small">${inr(lb.rent)}/month in Bengaluru</span></span><span class="tag o">Loop</span></div>`:`<div class="fit"><span class="small">Loop rooms go up to age 13. Teen rooms are on our roadmap.</span></div>`;
+  document.getElementById('fits').innerHTML=f;
+}
+ageEl.addEventListener('input',drawHero);
+document.getElementById('themeTiles').innerHTML=['space','jungle','ocean','winter'].map(t=>`<button class="theme" data-theme-go="${t}"><img src="img/theme-${t}.jpg" alt="${TH[t].name} themed room" style="width:100%;aspect-ratio:4/3;object-fit:cover;display:block"><div class="t">${TH[t].name}</div></button>`).join('');
+document.getElementById('worry').innerHTML=WORRY.map(([l,v])=>`<div class="hbar"><span>${l}</span><span class="tr"><span style="width:${v*2}%;background:var(--y)"></span></span><b>${v}%</b></div>`).join('');
+
+/* grow */
+document.getElementById('growGrid').innerHTML=GROW.map(p=>`<div class="card pcard"><img class="ph" src="img/grow-${p.id}.jpg" alt="${p.name} at every stage" style="aspect-ratio:3/2"><div class="small">${p.stages.map(x=>x[0]).join(' → ')}</div><span class="tag y" style="align-self:flex-start">Age ${p.age}</span><h3>${p.name}</h3><div><span class="price">${inr(p.price)}</span><div class="small">About ${inr(p.price/p.yrs)} per year of use</div></div><div class="acts"><button class="btn sm" data-add="${p.id}">Add to cart</button>${p.link?`<a class="btn sm gh" href="${p.link}">Details</a>`:''}</div></div>`).join('');
+document.getElementById('growGrid').addEventListener('click',e=>{const b=e.target.closest('.stages button');if(!b)return;const w=b.parentNode,p=GROW.find(x=>x.id==w.dataset.p);w.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x==b));const s=document.getElementById('art-'+p.id);s.innerHTML=`<g class="pop">${p.f(0,0,+b.dataset.a)}</g>`});
+const AC=['#F2B8A2','#E9C77E','#BCD3B0','#C6E2E8','#E6ECEF'];
+document.getElementById('playGrid').innerHTML=PLAY.map(([n,a,m,im],i)=>`<div class="card"><img class="pimg" src="img/play-${im}.jpg" alt="${n}" loading="lazy"><div class="band-age" style="background:${AC[i%5]}"></div><span class="tag">Age ${a}</span><h3 style="margin-top:8px">${n}</h3><p class="small">${m}</p><span class="tag o">Coming soon</span></div>`).join('');
+const cP=document.getElementById('cProd'),cY=document.getElementById('cYrs');
+cP.innerHTML=GROW.map((p,i)=>`<option value="${i}">${p.name} · ${inr(p.price)}</option>`).join('');
+function calc(){const p=GROW[cP.value];cY.max=p.yrs;if(+cY.value>p.yrs)cY.value=p.yrs;const y=+cY.value;document.getElementById('cYrsOut').textContent=y+(y>1?' years':' year');document.getElementById('cYear').textContent=inr(p.price/y);document.getElementById('cMonth').textContent=`${inr(p.price/y/12)} a month`}
+cP.addEventListener('change',calc);cY.addEventListener('input',calc);
+
+/* crib detail */
+const N=GROW[0];let pdA=.5;
+function pd(){
+  const k=+document.getElementById('kidAge').value,yr=new Date().getFullYear();
+  const seg=[['Crib',0,2,'#E9C77E'],['Toddler bed',2,5,'#F2B8A2'],['Kids sofa',5,7,'#BCD3B0']];
+  document.getElementById('pdTl').innerHTML=seg.map(([n,lo,hi,c])=>{const from=Math.max(0,Math.ceil(lo-k));return `<div style="background:${c};color:#2B1A12">${n}<br><span style="font-weight:500">${lo-k<=0?'Now':'From '+(yr+from)}</span></div>`}).join('');}
+document.getElementById('pdGal').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;document.getElementById('pdMain').src='img/'+b.dataset.src+'.jpg';document.querySelectorAll('#pdGal button').forEach(x=>x.classList.toggle('on',x==b))});
+document.getElementById('kidAge').addEventListener('change',pd);
+
+/* loop */
+const L={b:1,t:'space',plan:12,cover:true};
+const MULT={6:1.15,12:1,24:.9};
+const rentOf=()=>Math.round(BUND[L.b].rent*MULT[L.plan]);
+function moveIn(){const r=rentOf(),c=L.cover?149:0,gst=Math.round((r+999+c)*.18);return{r,c,gst,dep:r,tot:r+r+999+c+gst}}
+function drawLoop(){
+  {const im=document.getElementById('loopImg');im.src=`img/theme-${L.t}.jpg`;im.alt=TH[L.t].name+' themed room';const x=BUND[L.b];document.getElementById('loopInfo').innerHTML=`<span class="tag o">${TH[L.t].name}</span><h2 style="margin-top:10px">${x.name}</h2><p class="mut">For age ${x.ages}</p><h3>What's in the room</h3><ul class="plain">${x.items.split(', ').map(i=>`<li>${i[0].toUpperCase()+i.slice(1)}</li>`).join('')}<li>${TH[L.t].name} theme skins and decals</li></ul><p class="small">Installed and wall-anchored by our crew in under 3 hours. Fresh Playce certified.</p>`}
+  document.getElementById('themeChips').innerHTML=['space','jungle','ocean','winter'].map(t=>`<button class="chip ${t==L.t?'on':''}" data-t="${t}">${TH[t].name}</button>`).join('');
+  document.getElementById('bundles').innerHTML=BUND.map((x,i)=>`<button class="bundle ${i==L.b?'on':''}" data-b="${i}"><span class="tag">Age ${x.ages}</span><b style="margin-top:6px">${x.name}</b><span class="small">${x.items}</span><div style="font-weight:700;margin-top:6px">${inr(x.rent)}/mo</div></button>`).join('');
+  document.getElementById('plans').innerHTML=[6,12,24].map(p=>`<button class="${p==L.plan?'on':''}" data-p="${p}">${p} months</button>`).join('');
+  document.getElementById('sumName').textContent=`${BUND[L.b].name} · ${TH[L.t].name}`;
+  document.getElementById('sumRent').textContent=inr(rentOf());
+  document.getElementById('cover').checked=L.cover;
+  const m=moveIn();
+  document.getElementById('moveIn').innerHTML=`<div class="row"><span>First month rent</span><span>${inr(m.r)}</span></div><div class="row"><span>Refundable deposit</span><span>${inr(m.dep)}</span></div><div class="row"><span>Setup and install</span><span>₹999</span></div>${L.cover?`<div class="row"><span>Damage cover</span><span>₹149</span></div>`:''}<div class="row"><span>GST 18%</span><span>${inr(m.gst)}</span></div><div class="row" style="font-size:18px"><span><b>Total today</b></span><span>${inr(m.tot)}</span></div>`;
+}
+document.getElementById('v-loop').addEventListener('click',e=>{const t=e.target.closest('[data-t]'),b=e.target.closest('[data-b]'),p=e.target.closest('[data-p]');if(t)L.t=t.dataset.t;else if(b)L.b=+b.dataset.b;else if(p)L.plan=+p.dataset.p;else return;drawLoop()});
+document.getElementById('cover').addEventListener('change',e=>{L.cover=e.target.checked;drawLoop()});
+document.getElementById('themeTiles').addEventListener('click',e=>{const t=e.target.closest('[data-theme-go]');if(t){L.t=t.dataset.themeGo;drawLoop();location.hash='loop'}});
+
+/* booking */
+const BK={s:0,pin:'',age:'',name:'',phone:'',email:'',date:'',kyc:false,id:''};
+const SN=['Pincode','Child','Room','Plan','Details','Review'];
+function renderBook(){
+  const st=document.getElementById('stepper');st.innerHTML=SN.map((n,i)=>`<span class="${i==BK.s?'on':i<BK.s?'done':''}">${i+1}. ${n}</span>`).join('');
+  const B=document.getElementById('bookBody');let h='';
+  if(BK.s==0)h=`<h3>Where should we set up the room?</h3><label for="bPin">Bengaluru pincode</label><input type="text" id="bPin" inputmode="numeric" maxlength="6" value="${BK.pin}" placeholder="e.g. 560102"><div class="err" id="bErr"></div>`;
+  if(BK.s==1)h=`<h3>How old is your child?</h3><label for="bAge">Age in years</label><select id="bAge"><option value="">Choose</option>${Array.from({length:14},(_,i)=>`<option ${BK.age==i?'selected':''}>${i}</option>`).join('')}</select><div class="err" id="bErr"></div>`;
+  if(BK.s==2)h=`<h3>Your room</h3><p>We suggest <b>${BUND[L.b].name}</b> for age ${BUND[L.b].ages}. Change it if you like.</p><div class="bundles" id="bB">${BUND.map((x,i)=>`<button class="bundle ${i==L.b?'on':''}" data-bb="${i}"><b>${x.name}</b><span class="small">Age ${x.ages} · ${inr(x.rent)}/mo</span></button>`).join('')}</div><h3 style="margin-top:16px">Theme</h3><div class="chips">${['space','jungle','ocean','winter'].map(t=>`<button class="chip ${t==L.t?'on':''}" data-bt="${t}">${TH[t].name}</button>`).join('')}</div><img class="ph" src="img/theme-${L.t}.jpg" alt="${TH[L.t].name} themed room" style="margin-top:14px;aspect-ratio:16/10;max-height:300px">`;
+  if(BK.s==3)h=`<h3>Plan length</h3><div class="seg">${[6,12,24].map(p=>`<button class="${p==L.plan?'on':''}" data-bp="${p}">${p} months</button>`).join('')}</div><p class="big" style="margin:14px 0 4px">${inr(rentOf())}<span style="font-size:.4em;font-family:'DM Sans'">/month + GST</span></p><label class="toggle"><input type="checkbox" id="bCov" ${L.cover?'checked':''}> Add damage cover, ₹149/month</label>`;
+  if(BK.s==4)h=`<h3>Parent details</h3><label for="bName">Full name</label><input type="text" id="bName" value="${BK.name}" autocomplete="name"><label for="bPh">Mobile</label><input type="tel" id="bPh" inputmode="numeric" maxlength="10" value="${BK.phone}"><label for="bEm">Email</label><input type="email" id="bEm" value="${BK.email}"><label for="bDt">Preferred install date</label><input type="date" id="bDt" value="${BK.date}"><label for="bK">KYC document (Aadhaar or passport)</label><input type="file" id="bK" accept="image/*,.pdf"><div class="err" id="bErr"></div>`;
+  if(BK.s==5){const m=moveIn();h=`<h3>Review</h3><div class="row"><span>Room</span><span>${BUND[L.b].name}</span></div><div class="row"><span>Theme</span><span>${TH[L.t].name}</span></div><div class="row"><span>Plan</span><span>${L.plan} months</span></div><div class="row"><span>Pincode</span><span>${BK.pin}</span></div><div class="row"><span>Install date</span><span>${BK.date}</span></div><div id="bSum"></div>`}
+  if(BK.s==6){h=`<div style="text-align:center"><h2>Your room is booked!</h2><p>Booking ID <b>${BK.id}</b>. Our crew will confirm your install slot within 24 hours.</p></div><div class="pass" style="margin-top:14px"><svg class="qr" viewBox="0 0 21 21">${qr()}</svg><div><div style="font:400 30px/1 'Caveat Brush',cursive;color:#C2541E">Fresh Playce</div><div style="font-size:14px;margin-top:6px">${BUND[L.b].name} · ${TH[L.t].name}<br>Inspected, repaired, deep cleaned, double-checked and sealed before delivery.</div></div></div><div class="chips" style="margin-top:16px;justify-content:center"><a class="btn y" href="#home">Back to home</a></div>`}
+  if(BK.s<6)h+=`<div class="chips" style="margin-top:18px;justify-content:space-between">${BK.s?'<button class="btn gh" id="bBack">Back</button>':'<span></span>'}<button class="btn" id="bNext">${BK.s==5?'Pay with UPI Autopay':'Continue'}</button></div>`;
+  B.innerHTML=h;
+  if(BK.s==5){const m=moveIn();document.getElementById('bSum').innerHTML=document.getElementById('moveIn').innerHTML}
+}
+document.getElementById('bookBody').addEventListener('click',e=>{
+  const t=e.target,bb=t.closest('[data-bb]'),bt=t.closest('[data-bt]'),bp=t.closest('[data-bp]');
+  if(bb){L.b=+bb.dataset.bb;drawLoop();renderBook();return}
+  if(bt){L.t=bt.dataset.bt;drawLoop();renderBook();return}
+  if(bp){L.plan=+bp.dataset.bp;drawLoop();renderBook();return}
+  if(t.id=='bBack'){BK.s--;renderBook();return}
+  if(t.id!='bNext')return;
+  const err=m=>{const x=document.getElementById('bErr');if(x)x.textContent=m};
+  if(BK.s==0){const v=document.getElementById('bPin').value.trim();if(!/^560\d{3}$/.test(v))return err('Loop is in Bengaluru right now. Enter a pincode starting with 560.');BK.pin=v}
+  if(BK.s==1){const v=document.getElementById('bAge').value;if(v==='')return err('Pick an age so we can suggest a room.');BK.age=+v;L.b=BK.age<2?0:BK.age<5?1:BK.age<9?2:3;drawLoop()}
+  if(BK.s==3){L.cover=document.getElementById('bCov').checked;drawLoop()}
+  if(BK.s==4){BK.name=document.getElementById('bName').value.trim();BK.phone=document.getElementById('bPh').value.trim();BK.email=document.getElementById('bEm').value.trim();BK.date=document.getElementById('bDt').value;
+    if(!BK.name)return err('Add your name.');if(!/^[6-9]\d{9}$/.test(BK.phone))return err('Enter a valid 10-digit mobile number.');if(!/^\S+@\S+\.\S+$/.test(BK.email))return err('Enter a valid email.');if(!BK.date)return err('Pick an install date.')}
+  if(BK.s==5)BK.id='PL-LOOP-'+(1000+Math.floor(Math.random()*9000));
+  BK.s++;renderBook();document.getElementById('v-book').scrollIntoView();
+});
+document.getElementById('bookBody').addEventListener('change',e=>{if(e.target.id=='bCov'){L.cover=e.target.checked;drawLoop()}});
+
+/* qr */
+function qr(){seed=42;let s=R(0,0,21,21,'#fff');for(let y=0;y<21;y++)for(let x=0;x<21;x++){const f=(x<7&&y<7)||(x>13&&y<7)||(x<7&&y>13);if(f){const cx=x<7?0:14,cy=y<7?0:14,dx=x-cx,dy=y-cy;if(dx==0||dx==6||dy==0||dy==6||(dx>1&&dx<5&&dy>1&&dy<5))s+=R(x,y,1,1,CH)}else if(rnd()>.55)s+=R(x,y,1,1,CH)}return s}
+document.getElementById('qr').innerHTML=qr();
+
+/* about */
+document.getElementById('founders').innerHTML=[['Meenakshi Valliappa','Co-founder & COO','B.Des Interior Design, MFM','Design and R&D, operations, vendors, warehouse and Fresh Playce refurbishing.','meenakshi'],['Chetna Saha','Co-founder & CMO','B.Des Fashion Design, MFM','Brand, content and performance marketing, collaborations and community.','chetna'],['Nandika Krishna','Co-founder & CFO','B.Com, MFM','Finance and fundraising, resource planning, P&L, tax and compliance.','nandika']].map(([n,r,d,t,c])=>`<div class="card"><img src="img/team-${c}.jpg" alt="${n}" style="width:120px;height:120px;border-radius:50%;object-fit:cover;object-position:top;margin-bottom:12px;border:4px solid var(--card2)"><h3>${n}</h3><b>${r}</b><p class="small">${d}</p><p>${t}</p></div>`).join('');
+
+/* faq */
+document.getElementById('faqs').innerHTML=['Grow','Loop','Safety','Delivery'].map(g=>`<h3 style="margin-top:18px">${g}</h3>`+FAQ.filter(f=>f[0]==g).map(f=>`<details><summary>${f[1]}</summary><div><p>${f[2]}</p></div></details>`).join('')).join('');
+
+/* forms */
+document.getElementById('visitForm').addEventListener('submit',e=>{e.preventDefault();const n=document.getElementById('vName').value.trim(),p=document.getElementById('vPhone').value.trim(),d=document.getElementById('vDate').value,er=document.getElementById('vErr');
+  if(!n)return er.textContent='Add your name.';if(!/^[6-9]\d{9}$/.test(p))return er.textContent='Enter a valid 10-digit mobile number.';if(!d)return er.textContent='Pick a date.';
+  e.target.innerHTML=`<h3>See you at the studio, ${n.replace(/[<>&"']/g,'')}!</h3><p>Your visit is booked for ${d} at ${document.getElementById('vSlot').value}. We'll send directions by SMS.</p><p class="note">Demo form: nothing is sent.</p>`});
+document.getElementById('cForm').addEventListener('submit',e=>{e.preventDefault();const er=document.getElementById('cErr');if(!document.getElementById('cName').value.trim())return er.textContent='Add your name.';if(!/^\S+@\S+\.\S+$/.test(document.getElementById('cMail').value))return er.textContent='Enter a valid email.';if(!document.getElementById('cMsg').value.trim())return er.textContent='Write a message.';e.target.innerHTML=`<h3>Thanks!</h3><p>We'll reply within 48 hours.</p><p class="note">Demo form: nothing is sent.</p>`});
+
+/* cart */
+const cart={};let placed='';
+const item=id=>GROW.find(p=>p.id==id)||EXTRA[id];
+function drawCart(){
+  const ids=Object.keys(cart),n=ids.reduce((a,k)=>a+cart[k],0);document.getElementById('cartN').textContent=n;
+  const body=document.getElementById('cartBody'),foot=document.getElementById('cartFoot');
+  if(placed){body.innerHTML=`<p class="ok">Order ${placed} placed.</p><p>Delivery in 5 to 7 days for metros. We'll email your Click-Lock assembly video.</p><p class="note">Demo checkout: no payment taken.</p>`;foot.innerHTML='';return}
+  if(!ids.length){body.innerHTML=`<p class="mut">Your cart is empty.</p><a class="btn y" href="#grow">Browse Grow</a>`;foot.innerHTML='';return}
+  body.innerHTML=ids.map(k=>{const p=item(k);return `<div class="ci"><div><b>${p.name}</b><div class="small">${inr(p.price)}</div></div><div class="qty"><button data-q="-1" data-k="${k}" aria-label="Fewer">−</button><span>${cart[k]}</span><button data-q="1" data-k="${k}" aria-label="More">+</button></div></div>`}).join('');
+  const sub=ids.reduce((a,k)=>a+item(k).price*cart[k],0);
+  foot.innerHTML=`<div class="row" style="font-size:18px"><span>Subtotal incl. GST</span><span>${inr(sub)}</span></div><p class="small">Or ${inr(sub/6)}/month, no-cost EMI for 6 months.</p><button class="btn" id="checkout" style="width:100%">Checkout</button>`;
+}
+function openCart(o){document.getElementById('cart').classList.toggle('open',o);document.getElementById('veil').classList.toggle('open',o)}
+document.addEventListener('click',e=>{const a=e.target.closest('[data-add]');if(a){const k=a.dataset.add;cart[k]=(cart[k]||0)+1;placed='';drawCart();openCart(true)}
+  const q=e.target.closest('[data-q]');if(q){const k=q.dataset.k;cart[k]+=+q.dataset.q;if(cart[k]<1)delete cart[k];drawCart()}
+  if(e.target.id=='checkout'){placed='PL-G-'+(10000+Math.floor(Math.random()*90000));Object.keys(cart).forEach(k=>delete cart[k]);drawCart();document.getElementById('cartN').textContent=0}});
+document.getElementById('cartBtn').addEventListener('click',()=>openCart(true));
+document.getElementById('cartX').addEventListener('click',()=>openCart(false));
+document.getElementById('veil').addEventListener('click',()=>openCart(false));
+addEventListener('keydown',e=>{if(e.key=='Escape')openCart(false)});
+
+drawHero();calc();pd();drawLoop();drawCart();go();
+}
+</script>
+</body>
+</html>
